@@ -1,0 +1,28 @@
+# .github/workflows/scrape.yml
+name: Site777 Daily Scraper
+
+on:
+  schedule:
+    - cron: '20 14 * * *'  # 日本時間23:20（UTCで14:20）
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install selenium pandas
+
+    - name: Run scraper
+      run: |
+        python cehcked.py
