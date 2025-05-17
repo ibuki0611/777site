@@ -8,6 +8,8 @@ import pandas as pd
 import pickle
 import os
 from datetime import datetime
+import chromedriver_autoinstaller
+import tempfile
 
 # ===== ユーザー設定 =====
 COOKIE_PATH = 'cookies_pc.pkl'
@@ -28,8 +30,13 @@ machines = {
 
 # ===== Selenium 初期設定 =====
 def init_driver():
+    chromedriver_autoinstaller.install()  # 自動でバージョンに合ったドライバをインストール
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
+    options.add_argument(f'--user-data-dir={tempfile.mkdtemp()}')  # ユーザーデータディレクトリの競合回避
     return webdriver.Chrome(options=options)
 
 # ===== Cookieでログイン =====
